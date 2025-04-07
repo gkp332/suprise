@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FOR U</U></title>
+  <style>
+    /* Resetting default margins and paddings */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* Body and HTML styling */
+    body, html {
+      height: 100%;
+      width: 100%;
+      font-family: Arial, sans-serif;
+      background-color: black;
+      overflow: hidden; /* Hide scroll bars */
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+
+    /* Container to center content */
+    .container {
+      text-align: center;
+      color: white;
+      z-index: 1;
+      height: 100%;
+      width: 100%;
+      transition: background 1.5s ease;
+    }
+
+    /* Header styling with "For you" text */
+    .header {
+      font-size: 3em;
+      color: pink;
+      text-shadow: 2px 2px 5px navy;
+      margin-bottom: 20px;
+    }
+
+    /* Cat image styling */
+    .cat {
+      width: 250px;
+      height: auto;
+      animation: float 3s ease-in-out infinite;
+      filter: drop-shadow(0px 0px 15px pink);
+      transform: perspective(800px) translateZ(50px) scale(1.1);
+      transition: transform 0.5s ease;
+      margin-top: 150px;
+    }
+
+    /* Floating animation */
+    @keyframes float {
+      0%, 100% {
+        transform: perspective(800px) translateZ(50px) translateY(0) scale(1.1);
+      }
+      50% {
+        transform: perspective(800px) translateZ(70px) translateY(-10px) scale(1.15);
+      }
+    }
+
+    /* Bottom text styling */
+    .bottom-text {
+      position: absolute;
+      bottom: 40px; /* Slightly lower */
+      width: 100%;
+      text-align: center;
+      font-size: 2em; /* Increased font size */
+      color: white;
+      text-shadow: 1px 1px 5px hotpink;
+      opacity: 1; /* More visible on pink background */
+    }
+
+    /* Sparkles */
+    .sparkle {
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      background: #fff;
+      border-radius: 50%;
+      opacity: 1;
+      animation: floatUp 3s linear infinite;
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translateY(100vh) scale(1);
+        opacity: 0.7;
+      }
+      50% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-10vh) scale(0.5);
+        opacity: 0;
+      }
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="container" id="screen">
+    <div class="header">For you</div>
+
+    <img src="" alt="Cute Cat with Flower" class="cat hidden" id="cat">
+    <div class="bottom-text hidden" id="bottomText">
+      A flower for you to brighten your day<br>
+      as you have brighten mine 🌸
+    </div>
+
+    <!-- Background music -->
+    <audio id="bgMusic" loop>
+      <source src="https://cdn.pixabay.com/download/audio/2022/10/12/audio_1f9d8b39e3.mp3?filename=chill-lofi-ambient-12200.mp3" type="audio/mp3">
+    </audio>
+  </div>
+
+  <script>
+    const screen = document.getElementById('screen');
+    const cat = document.getElementById('cat');
+    const bottomText = document.getElementById('bottomText');
+    const music = document.getElementById('bgMusic');
+    let sparklesCreated = false;
+
+    // Variable to track the current background color state
+    let isNavyBlue = false;
+
+    function createSparkle() {
+      const sparkle = document.createElement('div');
+      sparkle.classList.add('sparkle');
+      sparkle.style.left = Math.random() * 100 + 'vw';
+      sparkle.style.animationDuration = (Math.random() * 2 + 2) + 's';
+      sparkle.style.width = sparkle.style.height = (Math.random() * 8 + 10) + 'px'; // Adjust size of sparkles
+      screen.appendChild(sparkle);
+
+      setTimeout(() => {
+        sparkle.remove();
+      }, 4000);
+    }
+
+    function startSparkles() {
+      if (sparklesCreated) return;
+      sparklesCreated = true;
+      setInterval(createSparkle, 150);
+    }
+
+    screen.addEventListener('click', () => {
+      // Toggle the background color between navy blue and pink
+      if (isNavyBlue) {
+        screen.style.background = 'pink'; // Switch to pink
+      } else {
+        screen.style.background = 'navy'; // Switch to navy blue
+      }
+
+      isNavyBlue = !isNavyBlue; // Toggle the state
+
+      // Load cat image (cat holding a flower)
+      cat.src = 'floreyonce-cat.gif'; // Cat holding flower GIF
+      cat.classList.remove('hidden');
+      bottomText.classList.remove('hidden');
+      
+      // Play background music
+      music.volume = 0.4;
+      music.play();
+
+      // Start sparkles animation
+      startSparkles();
+    });
+  </script>
+
+</body>
+</html>
